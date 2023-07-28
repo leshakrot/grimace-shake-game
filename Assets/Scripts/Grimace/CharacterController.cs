@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour
     private Vector3 _movement;
     public bool _isMoving = false;
     private bool isAttacking;
+    private bool isJumping;
     private CameraController _cameraController;
 
     private void Awake()
@@ -63,6 +64,11 @@ public class CharacterController : MonoBehaviour
     {
         Vector3 newPosition = _rb.position + _movement * _moveSpeed * Time.fixedDeltaTime;
         _rb.MovePosition(newPosition);
+    }
+
+    private void Jump()
+    {
+
     }
 
     private void Attack()
