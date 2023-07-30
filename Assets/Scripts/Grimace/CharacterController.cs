@@ -1,16 +1,22 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 5f;
+    public float moveSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 10f;
+    [SerializeField] private float jumpForce;
     [SerializeField] private Animator animator;
+
     private Rigidbody _rb;
     private Vector3 _movement;
-    public bool _isMoving = false;
+    public bool isMoving = false;
     private bool isAttacking;
     private bool isJumping;
     private CameraController _cameraController;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource _screamSound;
 
     private void Awake()
     {
@@ -29,21 +35,23 @@ public class CharacterController : MonoBehaviour
 
         if (hasInput)
         {
-            if (!_isMoving)
+            if (!isMoving)
             {
-                _isMoving = true;
+                isMoving = true;
                 animator.SetBool("isRunning", true);
             }
         }
         else
         {
-            if (_isMoving)
+            if (isMoving)
             {
-                _isMoving = false;
+                isMoving = false;
                 print("Cancel current action From movement");
             }
         }
         UpdateAnimator(hasInput);
+        if (Input.GetKeyDown(KeyCode.Tab)) Scare();
+        if (Input.GetKeyDown(KeyCode.Space)) Jump();
     }
 
     private void UpdateAnimator(bool hasInput)
@@ -55,33 +63,36 @@ public class CharacterController : MonoBehaviour
     {
         //if (!_isMoving) return;
 
-        if(!isAttacking) Move();
+        if (!isAttacking) Move();
         Rotate();
-        Attack();
+        //Jump();
     }
 
     private void Move()
     {
-        Vector3 newPosition = _rb.position + _movement * _moveSpeed * Time.fixedDeltaTime;
+        Vector3 newPosition = _rb.position + _movement * moveSpeed * Time.fixedDeltaTime;
         _rb.MovePosition(newPosition);
     }
 
-    private void Jump()
+    public void Jump()
     {
-
+        if (isMoving) animator.SetTrigger("RunJump");
+        else animator.SetTrigger("StandJump");
+        StartCoroutine(JumpCooldown());
     }
 
-    private void Attack()
+    public void AddForceToJump()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    public void Scare()
+    {
+        if (!isJumping)
         {
-            isAttacking = true;
-            animator.SetBool("isScaring", true);
-        }
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            isAttacking = false;
-            animator.SetBool("isScaring", false);
+            animator.SetTrigger("Scare");
+            _screamSound.PlayDelayed(0.5f);
+            StartCoroutine(AttackCooldown());
         }
     }
 
@@ -92,5 +103,19 @@ public class CharacterController : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(_movement);
             _rb.MoveRotation(Quaternion.Lerp(_rb.rotation, toRotation, _rotationSpeed * Time.fixedDeltaTime));
         }
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(3f);
+        isAttacking = false;
+    }
+
+    IEnumerator JumpCooldown()
+    {
+        isJumping = true;
+        yield return new WaitForSeconds(2f);
+        isJumping = false;
     }
 }
