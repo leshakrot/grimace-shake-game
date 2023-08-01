@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 3115235005096472022}
   - component: {fileID: 3115235005096472021}
   - component: {fileID: 3115235005096472024}
+  - component: {fileID: -5320703127593304600}
   m_Layer: 0
   m_Name: Business woman
   m_TagString: Untagged
@@ -237,7 +238,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -291,6 +292,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4e1b9f95a2b0e448d27a584ab75fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTerrified: 0
+  ped: {fileID: 0}
+  screamSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!135 &-5320703127593304600
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116920951457570759}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 1.07, z: 0}
 --- !u!1 &2281202151038187643
 GameObject:
   m_ObjectHideFlags: 0

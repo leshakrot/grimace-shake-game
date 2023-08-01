@@ -458,11 +458,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 614361626917295274}
-  - component: {fileID: 7353434143291472336}
   - component: {fileID: 7353434143291472341}
   - component: {fileID: 7353434143291472342}
   - component: {fileID: 7353434143291472343}
   - component: {fileID: 7353434143291472340}
+  - component: {fileID: 3893358669738156675}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -486,27 +486,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7353434143291472336
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4530057716426581689}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2ecc3c50e7d33344085eebd00d45eded, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &7353434143291472341
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -517,7 +496,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -526,7 +505,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!54 &7353434143291472342
@@ -571,6 +550,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4e1b9f95a2b0e448d27a584ab75fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTerrified: 0
+  ped: {fileID: 0}
+  screamSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!135 &3893358669738156675
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530057716426581689}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 1.07, z: 0}
 --- !u!1 &5212093739515888719
 GameObject:
   m_ObjectHideFlags: 0

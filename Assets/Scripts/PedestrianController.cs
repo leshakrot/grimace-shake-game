@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PedestrianController : MonoBehaviour
 {
@@ -27,6 +28,10 @@ public class PedestrianController : MonoBehaviour
             {
                 Destroy(pedestrians[i]);
                 pedestrians.RemoveAt(i);
+            }
+            if (pedestrians[i].gameObject.GetComponent<Pedestrian>().isTerrified)
+            {
+                StartCoroutine(WaitBeforeDestroyPed(i));
             }
         }
 
@@ -72,5 +77,12 @@ public class PedestrianController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    IEnumerator WaitBeforeDestroyPed(int index)
+    {    
+        yield return new WaitForSeconds(2f);
+        Destroy(pedestrians[index]);
+        pedestrians.RemoveAt(index);
     }
 }

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class Pedestrian : MonoBehaviour
 {
+    public bool isTerrified;
     private NavMeshAgent agent;
     private Vector3 targetPosition;
     private Animator animator;
@@ -16,13 +16,14 @@ public class Pedestrian : MonoBehaviour
 
     private void Update()
     {
-        if (agent.remainingDistance < 0.5f)
+        if (agent.remainingDistance < 0.5f && !isTerrified)
         {
             Vector3 randomPoint = GetRandomWanderPoint(transform.position, 100f);
             SetTargetPosition(randomPoint);
         }
 
-        animator.SetBool("isWalking", agent.velocity.magnitude >= 0.5f);
+        if (!isTerrified) animator.SetBool("isWalking", agent.velocity.magnitude >= 0.5f);
+        else agent.speed *= 1.1f;
     }
 
     public void SetTargetPosition(Vector3 position)

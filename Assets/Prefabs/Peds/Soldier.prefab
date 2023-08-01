@@ -200,11 +200,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2658855046056287081}
-  - component: {fileID: 5362702292277802515}
   - component: {fileID: 5362702292277802512}
   - component: {fileID: 5362702292277802513}
   - component: {fileID: 5362702292277802514}
   - component: {fileID: 5362702292277802511}
+  - component: {fileID: -7906792507904492722}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -228,27 +228,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5362702292277802515
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350375424167143802}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5fe6a58e593efd74aa55da13021d0370, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &5362702292277802512
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -259,7 +238,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -313,6 +292,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4e1b9f95a2b0e448d27a584ab75fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTerrified: 0
+  ped: {fileID: 0}
+  screamSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!135 &-7906792507904492722
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350375424167143802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 1.07, z: 0}
 --- !u!1 &2049511021118507318
 GameObject:
   m_ObjectHideFlags: 0

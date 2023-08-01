@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed;
+    public bool isMoving = false;
+
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float jumpForce;
     [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem screamFX;
+    [SerializeField] private PedestrianController pedController;
+    [SerializeField] private UI ui;
 
     private Rigidbody _rb;
     private Vector3 _movement;
-    public bool isMoving = false;
     private bool isAttacking;
     private bool isJumping;
     private CameraController _cameraController;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource _screamSound;
+    [SerializeField] private AudioSource _slurpSound;
 
     private void Awake()
     {
@@ -88,10 +93,11 @@ public class CharacterController : MonoBehaviour
 
     public void Scare()
     {
-        if (!isJumping)
+        if (!isJumping && !isAttacking)
         {
             animator.SetTrigger("Scare");
             _screamSound.PlayDelayed(0.5f);
+            screamFX.gameObject.SetActive(true);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -109,6 +115,7 @@ public class CharacterController : MonoBehaviour
     {
         isAttacking = true;
         yield return new WaitForSeconds(3f);
+        screamFX.gameObject.SetActive(false);
         isAttacking = false;
     }
 
@@ -117,5 +124,29 @@ public class CharacterController : MonoBehaviour
         isJumping = true;
         yield return new WaitForSeconds(2f);
         isJumping = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (isAttacking)
+        {
+            if (other.gameObject.TryGetComponent(out Pedestrian ped))
+            {
+                ped.gameObject.GetComponent<Pedestrian>().isTerrified = true;
+                ped.gameObject.GetComponentInChildren<Animator>().SetTrigger("Terrified");
+                ui.UpdateTerrifiedCountText();
+                ui.UpdateSlider();
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.TryGetComponent(out Shake shake))
+        {
+            _slurpSound.Play();
+            ui.UpdateShakesCountText();
+            shake.isCollected = true;
+        }
     }
 }
