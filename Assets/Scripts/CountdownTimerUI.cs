@@ -10,11 +10,13 @@ public class CountdownTimerUI : MonoBehaviour
     private bool isTimerRunning = false;
     private float timer;
     private float initialCountdownTime = 5f;
-    private float interval = 10f;
+    private float interval = 60f;
+    private bool isFirstRun;
 
     void Start()
     {
-        StartCountdown();
+        //StartCountdown();
+        StartCoroutine(Countdown());
     }
 
     void Update()
@@ -37,28 +39,25 @@ public class CountdownTimerUI : MonoBehaviour
 
     IEnumerator Countdown()
     {
-        while (true) // Зацикливаем таймер
+        while (timer > 0f)
         {
-            while (timer > 0f)
-            {
-                yield return null; // Ждем один кадр
+            yield return null; // Ждем один кадр
 
-                // Уменьшаем таймер на время между двумя кадрами
-                timer -= Time.deltaTime;
-            }
-
-            // Таймер закончился, выполняем нужное действие
-            TimerEndedAction();
-
-            // Ждем указанный интервал перед следующим показом таймера
-            yield return new WaitForSeconds(interval);
-            isTimerRunning = false;
-            timerText.gameObject.SetActive(true);
-            StartCountdown();
-
-            // Сбрасываем таймер для следующего отсчета
-            timer = initialCountdownTime;
+            // Уменьшаем таймер на время между двумя кадрами
+            timer -= Time.deltaTime;
         }
+
+        // Таймер закончился, выполняем нужное действие
+        TimerEndedAction();
+
+        // Ждем указанный интервал перед следующим показом таймера
+        yield return new WaitForSeconds(interval);
+        isTimerRunning = false;
+        timerText.gameObject.SetActive(true);
+        StartCountdown();
+
+        // Сбрасываем таймер для следующего отсчета
+        timer = initialCountdownTime;
     }
 
     void TimerEndedAction()
