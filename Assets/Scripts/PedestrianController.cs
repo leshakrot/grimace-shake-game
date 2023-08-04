@@ -29,9 +29,13 @@ public class PedestrianController : MonoBehaviour
                 Destroy(pedestrians[i]);
                 pedestrians.RemoveAt(i);
             }
+        }
+
+        for (int i = pedestrians.Count - 1; i >= 0; i--)
+        {
             if (pedestrians[i].gameObject.GetComponent<Pedestrian>().isTerrified)
             {
-                StartCoroutine(WaitBeforeDestroyPed(i));
+                StartCoroutine(WaitBeforeDestroyPed(pedestrians[i]));
             }
         }
 
@@ -79,10 +83,11 @@ public class PedestrianController : MonoBehaviour
         return false;
     }
 
-    IEnumerator WaitBeforeDestroyPed(int index)
-    {    
+    IEnumerator WaitBeforeDestroyPed(GameObject pedestrian)
+    {
         yield return new WaitForSeconds(2f);
-        Destroy(pedestrians[index]);
-        pedestrians.RemoveAt(index);
+        pedestrians.Remove(pedestrian);
+        Destroy(pedestrian);
     }
+
 }

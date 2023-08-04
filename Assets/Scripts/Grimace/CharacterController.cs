@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    public static CharacterController instance;
+
     public float moveSpeed;
     public bool isMoving = false;
 
@@ -62,6 +64,11 @@ public class CharacterController : MonoBehaviour
     private void UpdateAnimator(bool hasInput)
     {
         animator.SetBool("isRunning", hasInput);
+    }
+
+    public void ShowAd()
+    {
+
     }
 
     private void FixedUpdate()
@@ -132,8 +139,7 @@ public class CharacterController : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent(out Pedestrian ped))
             {
-                ped.gameObject.GetComponent<Pedestrian>().isTerrified = true;
-                ped.gameObject.GetComponentInChildren<Animator>().SetTrigger("Terrified");
+                StartCoroutine(WaitBeforeRunaway(ped));
                 ui.UpdateTerrifiedCountText();
                 ui.UpdateSlider();
             }
@@ -148,5 +154,12 @@ public class CharacterController : MonoBehaviour
             ui.UpdateShakesCountText();
             shake.isCollected = true;
         }
+    }
+
+    IEnumerator WaitBeforeRunaway(Pedestrian ped)
+    {
+        yield return new WaitForSeconds(1f);
+        ped.gameObject.GetComponent<Pedestrian>().isTerrified = true;
+        ped.gameObject.GetComponentInChildren<Animator>().SetTrigger("Terrified");
     }
 }
