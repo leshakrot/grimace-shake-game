@@ -5,13 +5,14 @@ using System.Collections;
 
 public class CountdownTimerUI : MonoBehaviour
 {
+    public GameObject gameOverPanel;
+
     public TextMeshProUGUI timerText;
 
     private bool isTimerRunning = false;
     private float timer;
     private float initialCountdownTime = 5f;
     private float interval = 60f;
-    private bool isFirstRun;
 
     void Start()
     {
@@ -21,9 +22,15 @@ public class CountdownTimerUI : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(isTimerRunning);
         if (isTimerRunning)
         {
             timerText.text = "До показа рекламы " + Mathf.CeilToInt(timer).ToString() + " сек";
+        }
+        else timerText.text = "";
+        if (gameOverPanel.activeSelf)
+        {
+            timerText.gameObject.SetActive(false);
         }
     }
 
@@ -64,7 +71,7 @@ public class CountdownTimerUI : MonoBehaviour
     {
         // Здесь вызовите метод или выполните действие, которое должно произойти после окончания таймера.
         Debug.Log("Таймер завершился! Выполняем нужное действие.");
-        YandexGame.Instance._FullscreenShow();
+        if (!gameOverPanel.activeSelf) YandexGame.Instance._FullscreenShow();
 
         // Остановить отображение таймера (если требуется)
         timerText.gameObject.SetActive(false);

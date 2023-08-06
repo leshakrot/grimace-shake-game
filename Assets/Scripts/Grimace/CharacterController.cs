@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using YG;
 
 public class CharacterController : MonoBehaviour
 {
@@ -14,21 +15,52 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private ParticleSystem screamFX;
     [SerializeField] private PedestrianController pedController;
     [SerializeField] private UI ui;
+    [SerializeField] private CameraController _cameraController;
+
+    [SerializeField] private GameObject _mobileControl;
+    [SerializeField] private GameObject _mobileControlPanel;
+    [SerializeField] private GameObject _pcControl;
+    [SerializeField] private GameObject _joystick;
 
     private Rigidbody _rb;
     private Vector3 _movement;
     private bool isAttacking;
     private bool isJumping;
-    private CameraController _cameraController;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource _screamSound;
     [SerializeField] private AudioSource _slurpSound;
 
+    private void OnEnable() => YandexGame.GetDataEvent += GetData;
+
+    private void OnDisable() => YandexGame.GetDataEvent -= GetData;
+
     private void Awake()
     {
+        instance = this;
         _rb = GetComponent<Rigidbody>();
-        _cameraController = Camera.main.GetComponent<CameraController>();
+
+        if (YandexGame.SDKEnabled == true)
+        {
+            GetData();
+        }
+    }
+
+    public void GetData()
+    {
+        if (YandexGame.EnvironmentData.isMobile)
+        {
+            _mobileControl.SetActive(true);
+            _mobileControlPanel.SetActive(true);
+            _joystick.SetActive(true);
+        }
+        else
+        {
+            _pcControl.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        Debug.Log("PC " + YandexGame.EnvironmentData.isDesktop);
+        Debug.Log("Mobile " + YandexGame.EnvironmentData.isMobile);
     }
 
     private void Update()
@@ -64,11 +96,6 @@ public class CharacterController : MonoBehaviour
     private void UpdateAnimator(bool hasInput)
     {
         animator.SetBool("isRunning", hasInput);
-    }
-
-    public void ShowAd()
-    {
-
     }
 
     private void FixedUpdate()

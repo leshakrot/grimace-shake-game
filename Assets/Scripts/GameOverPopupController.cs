@@ -12,12 +12,38 @@ public class GameOverPopupController : MonoBehaviour
     private void OnDisable() => YandexGame.RewardVideoEvent -= Rewarded;
     public void RestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        UI.instance.terrifiedCountText.text = "0";
+        UI.instance.shakesCountText.text = "0";
+        UI.instance.levelText.text = "0";
+        UI.instance.shakesCount = 0;
+        UI.instance.slider.value = 0;
+        UI.instance.terrifiedCount = 0;
+        UI.instance.level = 0;
+
+        player.position = startPosition.position;
+
+        HideCursor();
+
+        gameObject.SetActive(false);
+
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void Rewarded(int id)
     {
         player.position = startPosition.position;
+
+        HideCursor();
+
         gameObject.SetActive(false);
+    }
+
+    public void HideCursor()
+    {
+        if (!YandexGame.EnvironmentData.isMobile)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

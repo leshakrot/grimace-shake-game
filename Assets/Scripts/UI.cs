@@ -1,9 +1,12 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using YG;
 
 public class UI : MonoBehaviour
 {
+    public static UI instance;
+
     public TextMeshProUGUI terrifiedCountText;
     public TextMeshProUGUI shakesCountText;
     public TextMeshProUGUI levelText;
@@ -12,8 +15,13 @@ public class UI : MonoBehaviour
     public GameObject shopPanel;
     public Button[] hatShopButtons;
     public GameObject[] hats;
-    private int terrifiedCount; 
-    private int level = 0;
+    public int terrifiedCount; 
+    public int level = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -49,6 +57,8 @@ public class UI : MonoBehaviour
 
     public void OpenShop()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         shopPanel.SetActive(true);
         for (int i = 0; i < hatShopButtons.Length; i++)
         {
@@ -58,6 +68,11 @@ public class UI : MonoBehaviour
 
     public void CloseShop()
     {
+        if (!YandexGame.EnvironmentData.isMobile)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
         shopPanel.SetActive(false);
     }
 
@@ -69,5 +84,8 @@ public class UI : MonoBehaviour
             terrifiedCount = 0;
             slider.value = 0;
         }
+
+        if (Input.GetKeyDown(KeyCode.V)) OpenShop();
+        if (Input.GetKeyDown(KeyCode.Escape)) CloseShop();
     }
 }

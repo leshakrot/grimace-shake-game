@@ -12,4 +12,9 @@ public class Test : MonoBehaviour
         test.SetActive(!test.activeSelf);
         glasses.SetActive(test.activeSelf);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) TestQ();
+    }
 }
