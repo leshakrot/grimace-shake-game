@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5658067339188956369}
   - component: {fileID: 5658067339190250737}
   - component: {fileID: 5658067339191381553}
+  - component: {fileID: 3451840729274923283}
   m_Layer: 0
   m_Name: PajamaHat
   m_TagString: Untagged
@@ -86,3 +87,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3451840729274923283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5658067339189383409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ca3d6ffe4b4c54696b81b737ed9374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeleted: 0

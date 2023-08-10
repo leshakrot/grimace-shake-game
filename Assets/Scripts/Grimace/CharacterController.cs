@@ -167,7 +167,7 @@ public class CharacterController : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Pedestrian ped))
             {
                 StartCoroutine(WaitBeforeRunaway(ped));
-                ui.UpdateTerrifiedCountText();
+                ui.AddTerrifiedCount();
                 ui.UpdateSlider();
             }
         }
@@ -178,7 +178,7 @@ public class CharacterController : MonoBehaviour
         if(other.gameObject.TryGetComponent(out Shake shake))
         {
             _slurpSound.Play();
-            ui.UpdateShakesCountText();
+            ui.AddShakesCount();
             shake.isCollected = true;
         }
     }

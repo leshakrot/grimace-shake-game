@@ -19,14 +19,14 @@ public class GameOverPopupController : MonoBehaviour
         UI.instance.slider.value = 0;
         UI.instance.terrifiedCount = 0;
         UI.instance.level = 0;
-
+        PlayerPrefs.DeleteAll();
         player.position = startPosition.position;
 
         HideCursor();
 
         gameObject.SetActive(false);
 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void Rewarded(int id)

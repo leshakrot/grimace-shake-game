@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6273792294025389033}
   - component: {fileID: 6273792294021964745}
   - component: {fileID: 6273792294022963465}
+  - component: {fileID: 3069357555258235587}
   m_Layer: 0
   m_Name: MagicianHat
   m_TagString: Untagged
@@ -84,3 +85,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3069357555258235587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6273792294024970185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ca3d6ffe4b4c54696b81b737ed9374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeleted: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 481803473510278571}
   - component: {fileID: 481803473509508491}
   - component: {fileID: 481803473508378443}
+  - component: {fileID: 9001023056683614008}
   m_Layer: 0
   m_Name: VikingHelmet
   m_TagString: Untagged
@@ -88,3 +89,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9001023056683614008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481803473510644107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ca3d6ffe4b4c54696b81b737ed9374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeleted: 0

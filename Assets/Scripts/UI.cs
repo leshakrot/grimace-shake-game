@@ -10,6 +10,8 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI terrifiedCountText;
     public TextMeshProUGUI shakesCountText;
     public TextMeshProUGUI levelText;
+    public GameObject buttonsDescription;
+    public GameObject escButtonDescription;
     public int shakesCount = 0;
     public Slider slider;
     public GameObject shopPanel;
@@ -17,6 +19,10 @@ public class UI : MonoBehaviour
     public GameObject[] hats;
     public int terrifiedCount; 
     public int level = 0;
+
+    private void OnEnable() => YandexGame.GetDataEvent += GetData;
+
+    private void OnDisable() => YandexGame.GetDataEvent -= GetData;
 
     private void Awake()
     {
@@ -27,27 +33,60 @@ public class UI : MonoBehaviour
     {
         for(int i = 0; i < hatShopButtons.Length; i++)
         {
-            hatShopButtons[i].interactable = false;
+            bool isPurchased = PlayerPrefs.GetInt("Hat_" + i + "_Purchased", 0) == 1;
+            bool isDescriptionDeleted = PlayerPrefs.GetInt("Description_" + hats[i].name + "_Deleted", 0) == 1;
+            hatShopButtons[i].interactable = (((shakesCount / 10 >= i + 1) && (level > i))) || isPurchased;
+
+            if (isDescriptionDeleted)
+            {
+                hats[i].GetComponent<ShopDescription>().description.SetActive(false);
+            }
+            
         }
+        terrifiedCount = PlayerPrefs.GetInt("terrified");
+        shakesCount = PlayerPrefs.GetInt("shakes");
+        level = PlayerPrefs.GetInt("level");
+        UpdateTerrifiedCountText();
+        UpdateShakesCountText();
+        UpdateLevelText();
+        UpdateSlider();
+    }
+
+    public void AddTerrifiedCount()
+    {
+        terrifiedCount++;
+        PlayerPrefs.SetInt("terrified", terrifiedCount);
+        UpdateTerrifiedCountText();
     }
 
     public void UpdateTerrifiedCountText()
     {
-        terrifiedCount++;
         terrifiedCountText.text = terrifiedCount.ToString();
     }
 
-    public void UpdateShakesCountText()
+    public void AddShakesCount()
     {
         shakesCount++;
+        PlayerPrefs.SetInt("shakes", shakesCount);
+        UpdateShakesCountText();
+    }
+
+    public void UpdateShakesCountText()
+    { 
         shakesCountText.text = shakesCount.ToString();
     }
 
-    public void UpdateLevelText()
+    public void AddLevel()
     {
         level++;
-        levelText.text = level.ToString();
+        PlayerPrefs.SetInt("level", level);
         slider.maxValue += 50;
+        UpdateLevelText();
+    }
+
+    public void UpdateLevelText()
+    {   
+        levelText.text = level.ToString();
     }
 
     public void UpdateSlider()
@@ -62,7 +101,8 @@ public class UI : MonoBehaviour
         shopPanel.SetActive(true);
         for (int i = 0; i < hatShopButtons.Length; i++)
         {
-            hatShopButtons[i].interactable = ((shakesCount / 10 >= i + 1) && (level > i)) || (hats[i].GetComponent<Hat>().isPurchased);
+            bool isPurchased = PlayerPrefs.GetInt("Hat_" + i + "_Purchased", 0) == 1;
+            hatShopButtons[i].interactable = (((shakesCount / 10 >= i + 1) && (level > i))) || isPurchased;
         }
     }
 
@@ -80,12 +120,21 @@ public class UI : MonoBehaviour
     {
         if(slider.value == slider.maxValue)
         {
-            UpdateLevelText();
+            AddLevel();
             terrifiedCount = 0;
             slider.value = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.V)) OpenShop();
         if (Input.GetKeyDown(KeyCode.Escape)) CloseShop();
+    }
+
+    public void GetData()
+    {
+        if (YandexGame.EnvironmentData.isMobile)
+        {
+            buttonsDescription.SetActive(false);
+            escButtonDescription.SetActive(false);
+        }
     }
 }
