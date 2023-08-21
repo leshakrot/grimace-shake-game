@@ -6,6 +6,7 @@ public class GameOverPopupController : MonoBehaviour
 {
     public Transform player;
     public Transform startPosition;
+    public bool isRespawned = false;
 
     private void OnEnable() => YandexGame.RewardVideoEvent += Rewarded;
 
@@ -31,11 +32,7 @@ public class GameOverPopupController : MonoBehaviour
 
     void Rewarded(int id)
     {
-        player.position = startPosition.position;
-
-        HideCursor();
-
-        gameObject.SetActive(false);
+        isRespawned = true;
     }
 
     public void HideCursor()

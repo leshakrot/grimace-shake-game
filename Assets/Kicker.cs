@@ -3,13 +3,9 @@ using YG;
 
 public class Kicker : MonoBehaviour
 {
-    public GameObject gameOverPopup; // Ссылка на попап с game over
+    public GameObject gameOverPopup;
     public void Attack()
     {
-        // Здесь может быть ваш код для нанесения урона игроку
-        // Например, если у игрока есть компонент здоровья, можно вызвать метод получения урона у игрока.
-
-        // Показываем попап с game over
         if (gameOverPopup != null)
         {
             gameOverPopup.SetActive(true);

@@ -6,6 +6,9 @@ public class CharacterController : MonoBehaviour
 {
     public static CharacterController instance;
 
+    public GameOverPopupController popup;
+    public Vector3 startPosition;
+
     public float moveSpeed;
     public bool isMoving = false;
 
@@ -27,6 +30,8 @@ public class CharacterController : MonoBehaviour
     private bool isAttacking;
     private bool isJumping;
 
+    private bool isMobile;
+
     [Header("Sounds")]
     [SerializeField] private AudioSource _screamSound;
     [SerializeField] private AudioSource _slurpSound;
@@ -38,12 +43,18 @@ public class CharacterController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
         _rb = GetComponent<Rigidbody>();
 
         if (YandexGame.SDKEnabled == true)
         {
             GetData();
         }
+    }
+
+    private void Start()
+    {
+        startPosition = transform.position;
     }
 
     public void GetData()
@@ -53,11 +64,12 @@ public class CharacterController : MonoBehaviour
             _mobileControl.SetActive(true);
             _mobileControlPanel.SetActive(true);
             _joystick.SetActive(true);
+            isMobile = true;
         }
         else
         {
             _pcControl.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
         Debug.Log("PC " + YandexGame.EnvironmentData.isDesktop);
         Debug.Log("Mobile " + YandexGame.EnvironmentData.isMobile);
@@ -89,8 +101,30 @@ public class CharacterController : MonoBehaviour
             }
         }
         UpdateAnimator(hasInput);
-        if (Input.GetKeyDown(KeyCode.Tab)) Scare();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isMobile) Scare();
         if (Input.GetKeyDown(KeyCode.Space)) Jump();
+
+        if (popup.isRespawned)
+        {
+            transform.position = startPosition;
+
+            HideCursor();
+
+            popup.gameObject.SetActive(false);
+
+            popup.isRespawned = false;
+
+            transform.position = startPosition;
+        }
+    }
+
+    public void HideCursor()
+    {
+        if (!YandexGame.EnvironmentData.isMobile)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void UpdateAnimator(bool hasInput)

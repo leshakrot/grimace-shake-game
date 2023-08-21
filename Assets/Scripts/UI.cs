@@ -10,7 +10,7 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI terrifiedCountText;
     public TextMeshProUGUI shakesCountText;
     public TextMeshProUGUI levelText;
-    public GameObject buttonsDescription;
+    public GameObject[] buttonsDescription;
     public GameObject escButtonDescription;
     public int shakesCount = 0;
     public Slider slider;
@@ -133,7 +133,11 @@ public class UI : MonoBehaviour
     {
         if (YandexGame.EnvironmentData.isMobile)
         {
-            buttonsDescription.SetActive(false);
+            for(int i = 0; i < buttonsDescription.Length; i++)
+            {
+                buttonsDescription[i].SetActive(false);
+            }
+            
             escButtonDescription.SetActive(false);
         }
     }

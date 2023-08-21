@@ -7,11 +7,12 @@ public class EnemyController : MonoBehaviour
     public Transform[] patrolPoints; // Массив точек патрулирования
     public float detectionDistance = 10f; // Расстояние, на котором враг обнаруживает игрока
     public float attackDistance = 3f; // Расстояние, на котором враг атакует игрока
+    public Kicker kicker;
 
+    [SerializeField] private Transform player;
 
     private NavMeshAgent navMeshAgent;
     private Animator animator;
-    private Transform player;
     private int currentPatrolPointIndex;
     private float lastAttackTime;
 
@@ -19,7 +20,6 @@ public class EnemyController : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         currentPatrolPointIndex = 0;
         SetNextPatrolPoint();
     }
@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
     {
         // Расстояние до игрока
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
+        Debug.Log(distanceToPlayer);
         // Если игрок находится на видимости врага
         if (distanceToPlayer <= detectionDistance)
         {
@@ -43,6 +43,7 @@ public class EnemyController : MonoBehaviour
                 navMeshAgent.speed = 0f;
                 // Проигрываем анимацию атаки и вызываем метод атаки
                 animator.SetTrigger("Punch");
+                StartCoroutine(WaitBeforePlayerDie()); 
             }
         }
         else
@@ -67,5 +68,12 @@ public class EnemyController : MonoBehaviour
             currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Length;
             navMeshAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
         }
+    }
+
+    private IEnumerator WaitBeforePlayerDie()
+    {
+        yield return new WaitForSeconds(0.5f);
+        player.position = CharacterController.instance.startPosition;
+        kicker.Attack();
     }
 }
